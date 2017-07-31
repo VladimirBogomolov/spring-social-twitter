@@ -16,6 +16,7 @@
 package org.springframework.social.twitter.api.impl;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,4 +30,9 @@ abstract class MentionEntityMixin extends TwitterObjectMixin {
 			@JsonProperty("name") String name, 
 			@JsonProperty("indices") int[] indices) {}
 
+	@JsonProperty("screen_name")
+	private String screenName;
+
+	@JsonIgnore
+	public abstract String getScreenName();
 }

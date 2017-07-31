@@ -16,40 +16,102 @@
 package org.springframework.social.twitter.api.impl;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.social.twitter.api.TwitterProfile;
 
 /**
  * Mixin class for adding Jackson annotations to UserList.
  * @author Craig Walls
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 abstract class UserListMixin extends TwitterObjectMixin {
 
-	@JsonCreator
-	UserListMixin(
-			@JsonProperty("id") long id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("full_name") String fullName, 
-			@JsonProperty("uri") String uriPath, 
-			@JsonProperty("description") String description, 
-			@JsonProperty("slug") String slug, 
-			@JsonProperty("mode") @JsonDeserialize(using=ModeDeserializer.class) boolean isPublic, 
-			@JsonProperty("following") boolean isFollowing, 
-			@JsonProperty("member_count") int memberCount, 
-			@JsonProperty("subscriber_count") int subscriberCount) {}
+    @JsonCreator
+    UserListMixin(
+            @JsonProperty("id") long id,
+            @JsonProperty("name") String name,
+            @JsonProperty("full_name") String fullName,
+            @JsonProperty("uri") String uriPath,
+            @JsonProperty("description") String description,
+            @JsonProperty("slug") String slug,
+            @JsonProperty("mode") @JsonDeserialize(using = ModeDeserializer.class) boolean isPublic,
+            @JsonProperty("following") boolean isFollowing,
+            @JsonProperty("member_count") int memberCount,
+            @JsonProperty("subscriber_count") int subscriberCount) {
+    }
 
-	private static class ModeDeserializer extends JsonDeserializer<Boolean> {
-		@Override
-		public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {			
-			return jp.getText().equals("public");
-		}
-	}
+    @JsonProperty("full_name")
+    private String fullName;
+
+    @JsonProperty("uri")
+    private String uriPath;
+
+    @JsonProperty("mode")
+    @JsonSerialize(using = ModeSerializer.class)
+    private boolean isPublic;
+
+    @JsonProperty("member_count")
+    private int memberCount;
+
+    @JsonProperty("subscriber_count")
+    private int subscriberCount;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = TimelineDateDeserializer.class)
+    @JsonSerialize(using = TimelineDateSerializer.class)
+    private Date createdAt;
+
+    @JsonProperty("user")
+    private TwitterProfile user;
+
+    @JsonIgnore
+    public abstract String getFullName();
+
+    @JsonIgnore
+    public abstract String getUriPath();
+
+    @JsonIgnore
+    public abstract boolean isPublic();
+
+    @JsonIgnore
+    public abstract int getMemberCount();
+
+    @JsonIgnore
+    public abstract int getSubscriberCount();
+
+    @JsonIgnore
+    public abstract Date getCreatedAt();
+
+    private static class ModeDeserializer extends JsonDeserializer<Boolean> {
+        @Override
+        public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            return jp.getText().equals("public");
+        }
+    }
+
+    private static class ModeSerializer extends JsonSerializer<Boolean> {
+        @Override
+        public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+            if (value) {
+                gen.writeString("public");
+            } else {
+                gen.writeString("private");
+            }
+        }
+    }
+
 }

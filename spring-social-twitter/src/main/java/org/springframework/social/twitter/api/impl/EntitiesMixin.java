@@ -17,10 +17,8 @@ package org.springframework.social.twitter.api.impl;
 
 import java.util.List;
 
-import org.springframework.social.twitter.api.HashTagEntity;
-import org.springframework.social.twitter.api.MediaEntity;
-import org.springframework.social.twitter.api.MentionEntity;
-import org.springframework.social.twitter.api.UrlEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.social.twitter.api.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,9 +29,39 @@ abstract class EntitiesMixin extends TwitterObjectMixin {
 
 	@JsonCreator
 	public EntitiesMixin(
-			@JsonProperty("urls") List<UrlEntity> urls, 
-			@JsonProperty("hashtags") List<HashTagEntity> tags, 
-			@JsonProperty("user_mentions") List<MentionEntity> mentions, 
+			@JsonProperty("urls") List<UrlEntity> urls,
+			@JsonProperty("hashtags") List<HashTagEntity> tags,
+			@JsonProperty("user_mentions") List<MentionEntity> mentions,
 			@JsonProperty("media") List<MediaEntity> media) {}
-	
+
+	@JsonProperty("hashtags")
+	private List<HashTagEntity> tags;
+
+	@JsonProperty("user_mentions")
+	private List<MentionEntity> mentions;
+
+	@JsonProperty("urls")
+	private List<UrlEntity> urls;
+
+	@JsonProperty("media")
+	private List<MediaEntity> media;
+
+	@JsonIgnore
+	private List<TickerSymbolEntity> tickerSymbols;
+
+	@JsonIgnore
+	public abstract List<UrlEntity> getUrls();
+
+	@JsonIgnore
+	public abstract List<HashTagEntity> getHashTags();
+
+	@JsonIgnore
+	public abstract List<MentionEntity> getMentions();
+
+	@JsonIgnore
+	public abstract List<MediaEntity> getMedia();
+
+	@JsonIgnore
+	public abstract List<TickerSymbolEntity> getTickerSymbols();
+
 }

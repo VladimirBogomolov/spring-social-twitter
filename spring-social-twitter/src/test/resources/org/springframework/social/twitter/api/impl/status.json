@@ -58,5 +58,123 @@
 				"screen_name": "jackdiamond"
 			}
 		]
+	},
+	"geo": {
+		"type": "Point",
+		"coordinates": [
+			37.80194444,
+			-122.41888889
+		]
+	},
+	"coordinates": {
+		"type": "Point",
+		"coordinates": [
+			-122.41888889,
+			37.80194444
+		]
+	},
+	"place": {
+		"attributes": {},
+		"bounding_box": {
+			"coordinates": [
+				[
+					[
+						-122.400612831116,
+						37.7821120598956
+					],
+					[
+						-122.400612831116,
+						37.7821120598956
+					],
+					[
+						-122.400612831116,
+						37.7821120598956
+					],
+					[
+						-122.400612831116,
+						37.7821120598956
+					]
+				]
+			],
+			"type": "Polygon"
+		},
+		"contained_within": [
+			{
+				"attributes": {
+					"street_address": "795 Folsom St"
+				},
+				"bounding_box": {
+					"coordinates": [
+						[
+							[
+								-122.40061283111572,
+								37.78211205989559
+							],
+							[
+								-122.40061283111572,
+								37.78211205989559
+							],
+							[
+								-122.40061283111572,
+								37.78211205989559
+							],
+							[
+								-122.40061283111572,
+								37.78211205989559
+							]
+						]
+					],
+					"type": "Polygon"
+				},
+				"country": "United States",
+				"country_code": "US",
+				"full_name": "Twitter HQ, San Francisco",
+				"id": "247f43d441defc03",
+				"name": "Twitter HQ",
+				"place_type": "poi",
+				"url": "https://api.twitter.com/1.1/geo/id/247f43d441defc03.json"
+			}
+		],
+		"country": "United States",
+		"country_code": "US",
+		"full_name": "Twitter 3rd Floor Lunch Room, Twitter HQ",
+		"geometry": {
+			"coordinates": [
+				-122.400612831117,
+				37.7821120598957
+			],
+			"type": "Point"
+		},
+		"id": "6b9811c8d9de10b9",
+		"name": "Twitter 3rd Floor Lunch Room",
+		"place_type": "poi",
+		"polylines": [],
+		"url": "https://api.twitter.com/1.1/geo/id/6b9811c8d9de10b9.json"
+	},
+	"is_quote_status": true,
+	"quoted_status_id": 987654321,
+	"quoted_status_id_str": "987654321",
+	"quoted_status": {
+		"created_at": "Sun May 28 14:00:29 +0000 2017",
+		"id": 987654321,
+		"id_str": "987654321",
+		"text": "A domino can knock over another domino about 1.5x larger than itself",
+		"truncated": true,
+		"entities": {
+			"hashtags": [],
+			"symbols": [],
+			"user_mentions": [],
+			"urls": [
+				{
+					"url": "https://example.com",
+					"expanded_url": "https://twitter.com/i/web/status/987654321",
+					"display_url": "twitter.com/i/web/status/321",
+					"indices": [
+						108,
+						131
+					]
+				}
+			]
+		}
 	}
 }

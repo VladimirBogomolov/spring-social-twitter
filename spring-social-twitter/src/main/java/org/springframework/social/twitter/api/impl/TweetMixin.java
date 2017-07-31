@@ -15,15 +15,101 @@
  */
 package org.springframework.social.twitter.api.impl;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.social.twitter.api.Entities;
+import org.springframework.social.twitter.api.Place;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TwitterProfile;
+
+import java.util.Date;
 
 /**
- * Mixin class for adding Jackson annotations to Tweet. 
- * Relies on TweetDeserializer to do actual deserialization, as Tweet JSON structures differ slightly between timeline lists and search results.
+ * Mixin class for adding Jackson annotations to Tweet.
+ *
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = TweetDeserializer.class)
 abstract class TweetMixin extends TwitterObjectMixin {
+
+    @JsonCreator
+    TweetMixin(
+            @JsonProperty("id") String id,
+            @JsonProperty("text") String text,
+            @JsonProperty("created_at") @JsonDeserialize(using = TimelineDateDeserializer.class) Date createdAt) {
+    }
+
+    @JsonProperty("created_at")
+    @JsonSerialize(using = TimelineDateSerializer.class)
+    private Date createdAt;
+
+    @JsonProperty("user")
+    private TwitterProfile user;
+
+    @JsonProperty("in_reply_to_user_id")
+    private Long inReplyToUserId;
+
+    @JsonProperty("in_reply_to_status_id")
+    private Long inReplyToStatusId;
+
+    @JsonProperty("in_reply_to_screen_name")
+    private String inReplyToScreenName;
+
+    @JsonProperty("lang")
+    private String languageCode;
+
+    @JsonProperty("source")
+    private String source;
+
+    @JsonProperty("retweet_count")
+    private Integer retweetCount;
+
+    @JsonProperty("retweeted_status")
+    private Tweet retweetedStatus;
+
+    @JsonProperty("favorite_count")
+    private Integer favoriteCount;
+
+    @JsonProperty("entities")
+    private Entities entities;
+
+    @JsonProperty("favorited")
+    private boolean favorited;
+
+    @JsonProperty("retweeted")
+    private boolean retweeted;
+
+    @JsonProperty("coordinates")
+    private Place.Geometry coordinates;
+
+    @JsonProperty("place")
+    private Place place;
+
+    @JsonProperty("quoted_status_id")
+    private String quotedStatusId;
+
+    @JsonProperty("quoted_status")
+    private Tweet quotedStatus;
+
+    @JsonIgnore
+    public abstract String getUnmodifiedText();
+
+    @JsonIgnore
+    public abstract String getFromUser();
+
+    @JsonIgnore
+    public abstract Long getToUserId();
+
+    @JsonIgnore
+    public abstract long getFromUserId();
+
+    @JsonIgnore
+    public abstract String getProfileImageUrl();
+
+    @JsonIgnore
+    public abstract boolean isRetweet();
 }

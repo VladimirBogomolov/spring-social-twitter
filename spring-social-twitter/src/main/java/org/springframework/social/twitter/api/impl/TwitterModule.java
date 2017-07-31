@@ -15,23 +15,7 @@
  */
 package org.springframework.social.twitter.api.impl;
 
-import org.springframework.social.twitter.api.AccountSettings;
-import org.springframework.social.twitter.api.DirectMessage;
-import org.springframework.social.twitter.api.Entities;
-import org.springframework.social.twitter.api.HashTagEntity;
-import org.springframework.social.twitter.api.MediaEntity;
-import org.springframework.social.twitter.api.MentionEntity;
-import org.springframework.social.twitter.api.OEmbedTweet;
-import org.springframework.social.twitter.api.Place;
-import org.springframework.social.twitter.api.SavedSearch;
-import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.SuggestionCategory;
-import org.springframework.social.twitter.api.Trend;
-import org.springframework.social.twitter.api.Trends;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.TwitterProfile;
-import org.springframework.social.twitter.api.UrlEntity;
-import org.springframework.social.twitter.api.UserList;
+import org.springframework.social.twitter.api.*;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -57,6 +41,8 @@ class TwitterModule extends SimpleModule {
 		context.setMixInAnnotations(Tweet.class, TweetMixin.class);
 		context.setMixInAnnotations(SearchResults.class, SearchResultsMixin.class);
 		context.setMixInAnnotations(Place.class, PlaceMixin.class);
+		context.setMixInAnnotations(Place.Geometry.class, PlaceMixin.GeometryMixin.class);
+		context.setMixInAnnotations(Place.GeoPoint.class, PlaceMixin.GeoPointMixin.class);
 		context.setMixInAnnotations(SimilarPlacesResponse.class, SimilarPlacesMixin.class);
 		context.setMixInAnnotations(Entities.class, EntitiesMixin.class);
 		context.setMixInAnnotations(HashTagEntity.class, HashTagEntityMixin.class);

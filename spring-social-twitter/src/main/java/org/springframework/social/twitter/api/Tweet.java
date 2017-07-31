@@ -17,6 +17,9 @@ package org.springframework.social.twitter.api;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents a Twitter status update (e.g., a "tweet").
@@ -28,13 +31,9 @@ public class Tweet extends TwitterObject implements Serializable {
 	private final String id;
 	private final String text;
 	private final Date createdAt;
-	private String fromUser;
-	private String profileImageUrl;
-	private Long toUserId;
 	private Long inReplyToStatusId;
 	private Long inReplyToUserId;
 	private String inReplyToScreenName;
-	private long fromUserId;
 	private String languageCode;
 	private String source;
 	private Integer retweetCount;
@@ -44,10 +43,14 @@ public class Tweet extends TwitterObject implements Serializable {
 	private Integer favoriteCount;
 	private Entities entities;
 	private TwitterProfile user;
+	private Place.Geometry coordinates;
+	private Place place;
+	private String quotedStatusId;
+	private Tweet quotedStatus;
 
 	/**
 	 * Constructs a Tweet
-	 * 
+	 *
 	 * @param id The tweet's ID
 	 * @param text The tweet's text
 	 * @param createdAt Date Tweet was created
@@ -57,7 +60,7 @@ public class Tweet extends TwitterObject implements Serializable {
 	 * @param fromUserId The user ID of the tweet's author.
 	 * @param languageCode The language code
 	 * @param source The source of the tweet.
-	 * 
+	 *
 	 * @deprecated Use other constructor with String ID instead.
 	 */
 	@Deprecated
@@ -67,7 +70,7 @@ public class Tweet extends TwitterObject implements Serializable {
 
 	/**
 	 * Constructs a Tweet
-	 * 
+	 *
 	 * @param id The tweet's ID
 	 * @param idStr The tweet's ID as a String
 	 * @param text The tweet's text
@@ -78,7 +81,7 @@ public class Tweet extends TwitterObject implements Serializable {
 	 * @param fromUserId The user ID of the tweet's author.
 	 * @param languageCode The language code
 	 * @param source The source of the tweet.
-	 * 
+	 *
 	 * @deprecated Use other constructor with String ID instead.
 	 */
 	@Deprecated
@@ -86,27 +89,74 @@ public class Tweet extends TwitterObject implements Serializable {
 		this(Long.toString(id), text, createdAt, fromUser, profileImageUrl, toUserId, fromUserId, languageCode, source);
 	}
 
+
+	/**
+	 * Constructs a Tweet
+	 *
+	 * @param id The tweet's ID
+	 * @param text The tweet's text
+	 * @param createdAt Date Tweet was created
+	 * @param fromUser The username of the author of the tweet.
+	 * @param profileImageUrl The URL to the profile picture of the tweet's author.
+	 * @param toUserId The user ID of the user to whom the tweet is targeted.
+	 * @param fromUserId The user ID of the tweet's author.
+	 * @param languageCode The language code
+	 * @param source The source of the tweet.
+	 *
+	 * @deprecated Use other constructor with String ID instead.
+	 */
+	@Deprecated
 	public Tweet(String id, String text, Date createdAt, String fromUser, String profileImageUrl, Long toUserId, long fromUserId, String languageCode, String source) {
 		this.id = id;
 		this.text = text;
 		this.createdAt = createdAt;
-		this.fromUser = fromUser;
-		this.profileImageUrl = profileImageUrl;
-		this.toUserId = toUserId;
-		this.fromUserId = fromUserId;
+		this.inReplyToUserId = toUserId;
 		this.languageCode = languageCode;
-		this.source = source;		
+		this.source = source;
+	}
+
+	/**
+	 * Constructs a Tweet
+	 *
+	 * @param id The tweet's ID
+	 * @param text The tweet's text
+	 * @param createdAt Date Tweet was created
+	 * @param toUserId The user ID of the user to whom the tweet is targeted.
+	 * @param languageCode The language code
+	 * @param source The source of the tweet.
+	 * @param user The user profile of the tweet's author
+	 */
+	public Tweet(String id, String text, Date createdAt, Long toUserId, String languageCode, String source, TwitterProfile user ) {
+		this.id = id;
+		this.text = text;
+		this.createdAt = createdAt;
+		this.inReplyToUserId = toUserId;
+		this.languageCode = languageCode;
+		this.source = source;
+		this.user = user;
+	}
+	/**
+	 * Constructs a Tweet
+	 *
+	 * @param id The tweet's ID
+	 * @param text The tweet's text
+	 * @param createdAt Date Tweet was created
+	 */
+	public Tweet(String id, String text, Date createdAt) {
+		this.id = id;
+		this.text = text;
+		this.createdAt = createdAt;
 	}
 
 	/**
 	 * The text of the tweet. If this tweet is a retweet of another tweet, the text may be preceeded with "RT \@someuser" and may be truncated at the end.
-	 * To get the raw, unmodified text of the original tweet, use {@link #getUnmodifiedText()}. 
+	 * To get the raw, unmodified text of the original tweet, use {@link #getUnmodifiedText()}.
 	 * @return The text of the tweet.
 	 */
 	public String getText() {
 		return text;
 	}
-	
+
 	/**
 	 * Returns the unmodified text of the tweet.
 	 * If this tweet is a retweet, it returns the text of the original tweet.
@@ -121,112 +171,68 @@ public class Tweet extends TwitterObject implements Serializable {
 		return createdAt;
 	}
 
+	@Deprecated
 	public String getFromUser() {
-		return fromUser;
-	}
-
-	public void setFromUser(String fromUser) {
-		this.fromUser = fromUser;
+		return user != null ? user.getScreenName() : null;
 	}
 
 	public String getId() {
 		return id;
 	}
 
+	@Deprecated
 	public String getProfileImageUrl() {
-		return profileImageUrl;
+		return user != null ? user.getProfileImageUrl() : null;
 	}
 
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
-	}
-
+	@Deprecated
 	public Long getToUserId() {
-		return toUserId;
+		return inReplyToUserId;
 	}
 
-	public void setToUserId(Long toUserId) {
-		this.toUserId = toUserId;
-	}
-
+	@Deprecated
 	public long getFromUserId() {
-		return fromUserId;
+		return user != null ? user.getId() : 0;
 	}
-	
-	public void setInReplyToStatusId(Long inReplyToStatusId) {
-		this.inReplyToStatusId = inReplyToStatusId;
-	}
-	
+
 	public Long getInReplyToStatusId() {
 		return inReplyToStatusId;
-	}
-
-	public void setFromUserId(long fromUserId) {
-		this.fromUserId = fromUserId;
 	}
 
 	public String getLanguageCode() {
 		return languageCode;
 	}
 
-	public void setLanguageCode(String languageCode) {
-		this.languageCode = languageCode;
-	}
-
 	public String getSource() {
 		return source;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public void setRetweetCount(Integer retweetCount) {
-		this.retweetCount = retweetCount;		
-	}
-	
 	/**
 	 * The number of times this tweet has been retweeted.
-	 * Only available in timeline results. 
+	 * Only available in timeline results.
 	 * getRetweetCount() will return null for Tweet objects returned in search results.
 	 * @return the number of times the tweet has been retweeted or null if that information is unavailable
 	 */
 	public Integer getRetweetCount() {
 		return retweetCount;
 	}
-	
-	public void setRetweeted(boolean retweeted) {
-		this.retweeted = retweeted;
-	}
 
 	public boolean isRetweeted() {
 		return retweeted;
 	}
-	
+
 	public Tweet getRetweetedStatus() {
 		return this.retweetedStatus;
 	}
 
-	public void setRetweetedStatus(final Tweet tweet) {
-		this.retweetedStatus = tweet;
-	}
-	
 	public boolean isRetweet() {
 		return this.retweetedStatus != null;
-	}
-
-	public void setFavorited(boolean favorited) {
-		this.favorited = favorited;
 	}
 
 	public boolean isFavorited() {
 		return favorited;
 	}
-	
-	public void setFavoriteCount(Integer favoriteCount) {
-		this.favoriteCount = favoriteCount;
-	}
-	
+
 	public Integer getFavoriteCount() {
 		return favoriteCount;
 	}
@@ -234,9 +240,18 @@ public class Tweet extends TwitterObject implements Serializable {
 	public Entities getEntities() {
 		return this.entities;
 	}
-	
+
 	public void setEntities(final Entities ent) {
+		extractTickerSymbolEntitiesFromText(ent, text);
 		this.entities = ent;
+	}
+
+	public Place.Geometry getCoordinates() {
+		return coordinates;
+	}
+
+	public Place getPlace() {
+		return place;
 	}
 
 	public boolean hasMentions() {
@@ -266,29 +281,25 @@ public class Tweet extends TwitterObject implements Serializable {
 		}
 		return !this.entities.getHashTags().isEmpty();
 	}
-	
+
 	public TwitterProfile getUser() {
 		return this.user;
-	}
-	
-	public void setUser(final TwitterProfile prof) {
-		this.user = prof;
 	}
 
 	public Long getInReplyToUserId() {
 		return inReplyToUserId;
 	}
 
-	public void setInReplyToUserId(final Long inReplyToUserId) {
-		this.inReplyToUserId = inReplyToUserId;
-	}
-
 	public String getInReplyToScreenName() {
 		return inReplyToScreenName;
 	}
 
-	public void setInReplyToScreenName(final String inReplyToScreenName) {
-		this.inReplyToScreenName = inReplyToScreenName;
+	public String getQuotedStatusId() {
+		return quotedStatusId;
+	}
+
+	public Tweet getQuotedStatus() {
+		return quotedStatus;
 	}
 
 	@Override
@@ -302,7 +313,7 @@ public class Tweet extends TwitterObject implements Serializable {
 
 		Tweet tweet = (Tweet) o;
 
-		if (fromUserId != tweet.fromUserId) {
+		if (getFromUserId() != tweet.getFromUserId()) {
 			return false;
 		}
 		if (id != tweet.id) {
@@ -317,7 +328,7 @@ public class Tweet extends TwitterObject implements Serializable {
 		if (entities != null ? !entities.equals(tweet.entities) : tweet.entities != null) {
 			return false;
 		}
-		if (fromUser != null ? !fromUser.equals(tweet.fromUser) : tweet.fromUser != null) {
+		if (getFromUser() != null ? !getFromUser().equals(tweet.getFromUser()) : tweet.getFromUser() != null) {
 			return false;
 		}
 		if (inReplyToScreenName != null ? !inReplyToScreenName.equals(tweet.inReplyToScreenName) : tweet.inReplyToScreenName != null) {
@@ -332,7 +343,7 @@ public class Tweet extends TwitterObject implements Serializable {
 		if (languageCode != null ? !languageCode.equals(tweet.languageCode) : tweet.languageCode != null) {
 			return false;
 		}
-		if (profileImageUrl != null ? !profileImageUrl.equals(tweet.profileImageUrl) : tweet.profileImageUrl != null) {
+		if (getProfileImageUrl() != null ? !getProfileImageUrl().equals(tweet.getProfileImageUrl()) : tweet.getProfileImageUrl() != null) {
 			return false;
 		}
 		if (retweetCount != null ? !retweetCount.equals(tweet.retweetCount) : tweet.retweetCount != null) {
@@ -347,13 +358,22 @@ public class Tweet extends TwitterObject implements Serializable {
 		if (text != null ? !text.equals(tweet.text) : tweet.text != null) {
 			return false;
 		}
-		if (toUserId != null ? !toUserId.equals(tweet.toUserId) : tweet.toUserId != null) {
-			return false;
-		}
 		if (user != null ? !user.equals(tweet.user) : tweet.user != null) {
 			return false;
 		}
-	
+		if (coordinates != null ? !coordinates.equals(tweet.coordinates) : tweet.coordinates != null) {
+			return false;
+		}
+		if (place != null ? !place.equals(tweet.place) : tweet.place != null) {
+			return false;
+		}
+		if (quotedStatusId != tweet.quotedStatusId) {
+			return false;
+		}
+		if (quotedStatus != tweet.quotedStatus) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -362,13 +382,13 @@ public class Tweet extends TwitterObject implements Serializable {
 		int result = (id != null ? id.hashCode() : 0);
 		result = 31 * result + (text != null ? text.hashCode() : 0);
 		result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-		result = 31 * result + (fromUser != null ? fromUser.hashCode() : 0);
-		result = 31 * result + (profileImageUrl != null ? profileImageUrl.hashCode() : 0);
-		result = 31 * result + (toUserId != null ? toUserId.hashCode() : 0);
+		result = 31 * result + (getFromUser() != null ? getFromUser().hashCode() : 0);
+		result = 31 * result + (getProfileImageUrl() != null ? getProfileImageUrl().hashCode() : 0);
+		result = 31 * result + (inReplyToUserId != null ? inReplyToUserId.hashCode() : 0);
 		result = 31 * result + (inReplyToStatusId != null ? inReplyToStatusId.hashCode() : 0);
 		result = 31 * result + (inReplyToUserId != null ? inReplyToUserId.hashCode() : 0);
 		result = 31 * result + (inReplyToScreenName != null ? inReplyToScreenName.hashCode() : 0);
-		result = 31 * result + (int) (fromUserId ^ (fromUserId >>> 32));
+		result = 31 * result + (int) (getFromUserId() ^ (getFromUserId() >>> 32));
 		result = 31 * result + (languageCode != null ? languageCode.hashCode() : 0);
 		result = 31 * result + (source != null ? source.hashCode() : 0);
 		result = 31 * result + (retweetCount != null ? retweetCount.hashCode() : 0);
@@ -376,6 +396,21 @@ public class Tweet extends TwitterObject implements Serializable {
 		result = 31 * result + (retweetedStatus != null ? retweetedStatus.hashCode() : 0);
 		result = 31 * result + (entities != null ? entities.hashCode() : 0);
 		result = 31 * result + (user != null ? user.hashCode() : 0);
+		result = 31 * result + (coordinates != null ? coordinates.hashCode() : 0);
+		result = 31 * result + (place != null ? place.hashCode() : 0);
+		result = 31 * result + (quotedStatusId != null ? quotedStatusId.hashCode() : 0);
+		result = 31 * result + (quotedStatus != null ? quotedStatus.hashCode() : 0);
 		return result;
 	}
+
+    private void extractTickerSymbolEntitiesFromText(Entities entities, String text) {
+		Pattern pattern = Pattern.compile("\\$[A-Za-z]+");
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            MatchResult matchResult = matcher.toMatchResult();
+            String tickerSymbol = matchResult.group().substring(1);
+            String url = "https://twitter.com/search?q=%24" + tickerSymbol + "&src=ctag";
+            entities.getTickerSymbols().add(new TickerSymbolEntity(tickerSymbol, url, new int[] {matchResult.start(), matchResult.end()}));
+        }
+    }
 }

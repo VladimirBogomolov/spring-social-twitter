@@ -16,6 +16,7 @@
 package org.springframework.social.twitter.api.impl;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,5 +33,28 @@ abstract class MediaEntityMixin extends TwitterObjectMixin {
 			@JsonProperty("expanded_url")String expanded, 
 			@JsonProperty("type")String type, 
 			@JsonProperty("indices")int[] indices) {}
-	
+
+	@JsonProperty("media_url")
+	private String mediaHttp;
+
+	@JsonProperty("media_url_https")
+	private String mediaHttps;
+
+	@JsonProperty("display_url")
+	private String display;
+
+	@JsonProperty("expanded_url")
+	private String expanded;
+
+	@JsonIgnore
+	public abstract String getMediaUrl();
+
+	@JsonIgnore
+	public abstract String getMediaSecureUrl();
+
+	@JsonIgnore
+	public abstract String getDisplayUrl();
+
+	@JsonIgnore
+	public abstract String getExpandedUrl();
 }

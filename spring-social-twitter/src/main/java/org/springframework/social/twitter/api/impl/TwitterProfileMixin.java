@@ -16,9 +16,11 @@
 package org.springframework.social.twitter.api.impl;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 
@@ -28,17 +30,28 @@ import java.util.Date;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 abstract class TwitterProfileMixin extends TwitterObjectMixin {
+
 	@JsonCreator
 	TwitterProfileMixin(
-			@JsonProperty("id") long id, 
-			@JsonProperty("screen_name") String screenName, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("url") String url, 
-			@JsonProperty("profile_image_url") String profileImageUrl, 
-			@JsonProperty("description") String description, 
-			@JsonProperty("location") String location, 
+			@JsonProperty("id") long id,
+			@JsonProperty("screen_name") String screenName,
+			@JsonProperty("name") String name,
+			@JsonProperty("url") String url,
+			@JsonProperty("profile_image_url") String profileImageUrl,
+			@JsonProperty("description") String description,
+			@JsonProperty("location") String location,
 			@JsonProperty("created_at") @JsonDeserialize(using=TimelineDateDeserializer.class) Date createdDate) {}
-	
+
+	@JsonProperty("screen_name")
+	private String screenName;
+
+	@JsonProperty("profile_image_url")
+	private String profileImageUrl;
+
+	@JsonProperty("created_at")
+	@JsonSerialize(using = TimelineDateSerializer.class)
+	private Date createdDate;
+
 	@JsonProperty("notifications")
 	private boolean notificationsEnabled;
 
@@ -116,4 +129,8 @@ abstract class TwitterProfileMixin extends TwitterObjectMixin {
 
     @JsonProperty("profile_banner_url")
     private String profileBannerUrl;
+
+    @JsonIgnore
+    public abstract String getProfileUrl();
+
 }

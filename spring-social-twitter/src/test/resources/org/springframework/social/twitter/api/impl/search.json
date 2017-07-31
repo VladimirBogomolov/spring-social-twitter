@@ -1,104 +1,222 @@
 {
-	"statuses":[
-     {
-		 "text":"Tweet 1",
-		 "to_user_id":332211,
-		 "to_user":null,
-		 "id":12345,   
-	 	 "in_reply_to_status_id" : 123123123123,
-	 	 "lang": "en",
-	 	 "favorited" : true,
-		"favorite_count" : 1001,
-	 	 "user" : {
-		      "id" : 112233,
-		      "screen_name" : "habuma",
-		      "profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
-	     },
-		 "source":"Spring Social Showcase",
-		 "metadata": {
-		 	"iso_language_code": "en",
-		 	"result_type": "recent"
-		 },
-		 "entities": {
-			"hashtags": [
-			{
-				"indices": [
-					89, 
-					98
-				], 
-				"text": "testhash"
-			}
-			], 
-			"urls": [
-				{
-					"display_url": "fb.me/t35tur1", 
-					"expanded_url": "http://fb.me/t35tur1", 
-					"indices": [
-						10, 
-						30
-					], 
-					"url": "http://t.co/t35tur1"
-				}
-			],
-			"user_mentions": [
-				{
-					"id": 11223344, 
-					"id_str": "11223344", 
-					"indices": [
-						3, 
-						18
-					], 
-					"name": "Bucky Greenhorn", 
-					"screen_name": "ukuleleman"
-				}, 
-				{
-					"id": 44332211, 
-					"id_str": "44332211", 
-					"indices": [
-						23, 
-						37
-					], 
-					"name": "Jack Diamond", 
-					"screen_name": "jackdiamond"
-				}
-			]
-		},
-		 "created_at":"Tue Jul 13 17:38:21 +0000 2010"
-     } ,
-	 {
-		 "text":"Tweet 2",
-		 "to_user_id":112233,
-		 "to_user":null,
-		 "id":54321,   
-		 "source":"Twitter",
-	 	 "favorited" : false,
-	 	 "lang": "de",
-	 	 "metadata": {
-	 	 	"iso_language_code": "de",
-	 	 	"result_type": "recent"
-	 	 },
-		 "entities": {
-			"hashtags": [], 
-			"urls": [], 
-			"user_mentions": []
-		 },		 
-		 "user" : {
-		      "id" : 332211,
-		      "screen_name" : "rclarkson",
-		      "profile_image_url" : "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
-	     },
-	     "created_at":"Tue Jul 20 19:38:21 +0000 2010"
-     }
-	],
-	 "search_metadata" : {
-	      "since_id":10,
-	      "max_id":999,
-	      "refresh_url":"?since_id=10&q=%23spring",
-	      "results_per_page":15,
-          "completed_in": 0.035,
-	      "next_results":"?max_id=999&q=%23spring",
-	      "query":"%23spring",
-	      "max_id_str":"999",
-	      "since_id_str":"10"
-	}
+  "statuses": [
+    {
+      "text": "Tweet 1",
+      "to_user_id": 332211,
+      "to_user": null,
+      "id": 12345,
+      "in_reply_to_status_id": 123123123123,
+      "lang": "en",
+      "favorited": true,
+      "favorite_count": 1001,
+      "user": {
+        "id": 112233,
+        "screen_name": "habuma",
+        "profile_image_url": "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
+      },
+      "source": "Spring Social Showcase",
+      "metadata": {
+        "iso_language_code": "en",
+        "result_type": "recent"
+      },
+      "entities": {
+        "hashtags": [
+          {
+            "indices": [
+              89,
+              98
+            ],
+            "text": "testhash"
+          }
+        ],
+        "urls": [
+          {
+            "display_url": "fb.me/t35tur1",
+            "expanded_url": "http://fb.me/t35tur1",
+            "indices": [
+              10,
+              30
+            ],
+            "url": "http://t.co/t35tur1"
+          }
+        ],
+        "user_mentions": [
+          {
+            "id": 11223344,
+            "id_str": "11223344",
+            "indices": [
+              3,
+              18
+            ],
+            "name": "Bucky Greenhorn",
+            "screen_name": "ukuleleman"
+          },
+          {
+            "id": 44332211,
+            "id_str": "44332211",
+            "indices": [
+              23,
+              37
+            ],
+            "name": "Jack Diamond",
+            "screen_name": "jackdiamond"
+          }
+        ]
+      },
+      "created_at": "Tue Jul 13 17:38:21 +0000 2010",
+      "geo": {
+        "type": "Point",
+        "coordinates": [
+          37.80194444,
+          -122.41888889
+        ]
+      },
+      "coordinates": {
+        "type": "Point",
+        "coordinates": [
+          -122.41888889,
+          37.80194444
+        ]
+      },
+      "place": {
+        "attributes": {},
+        "bounding_box": {
+          "coordinates": [
+            [
+              [
+                -122.400612831116,
+                37.7821120598956
+              ],
+              [
+                -122.400612831116,
+                37.7821120598956
+              ],
+              [
+                -122.400612831116,
+                37.7821120598956
+              ],
+              [
+                -122.400612831116,
+                37.7821120598956
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "contained_within": [
+          {
+            "attributes": {
+              "street_address": "795 Folsom St"
+            },
+            "bounding_box": {
+              "coordinates": [
+                [
+                  [
+                    -122.40061283111572,
+                    37.78211205989559
+                  ],
+                  [
+                    -122.40061283111572,
+                    37.78211205989559
+                  ],
+                  [
+                    -122.40061283111572,
+                    37.78211205989559
+                  ],
+                  [
+                    -122.40061283111572,
+                    37.78211205989559
+                  ]
+                ]
+              ],
+              "type": "Polygon"
+            },
+            "country": "United States",
+            "country_code": "US",
+            "full_name": "Twitter HQ, San Francisco",
+            "id": "247f43d441defc03",
+            "name": "Twitter HQ",
+            "place_type": "poi",
+            "url": "https://api.twitter.com/1.1/geo/id/247f43d441defc03.json"
+          }
+        ],
+        "country": "United States",
+        "country_code": "US",
+        "full_name": "Twitter 3rd Floor Lunch Room, Twitter HQ",
+        "geometry": {
+          "coordinates": [
+            -122.400612831117,
+            37.7821120598957
+          ],
+          "type": "Point"
+        },
+        "id": "6b9811c8d9de10b9",
+        "name": "Twitter 3rd Floor Lunch Room",
+        "place_type": "poi",
+        "polylines": [],
+        "url": "https://api.twitter.com/1.1/geo/id/6b9811c8d9de10b9.json"
+      },
+      "is_quote_status": true,
+      "quoted_status_id": 987654321,
+      "quoted_status_id_str": "987654321",
+      "quoted_status": {
+        "created_at": "Sun May 28 14:00:29 +0000 2017",
+        "id": 987654321,
+        "id_str": "987654321",
+        "text": "A domino can knock over another domino about 1.5x larger than itself",
+        "truncated": true,
+        "entities": {
+          "hashtags": [],
+          "symbols": [],
+          "user_mentions": [],
+          "urls": [
+            {
+              "url": "https://example.com",
+              "expanded_url": "https://twitter.com/i/web/status/987654321",
+              "display_url": "twitter.com/i/web/status/321",
+              "indices": [
+                108,
+                131
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "text": "Tweet 2",
+      "to_user_id": 112233,
+      "to_user": null,
+      "id": 54321,
+      "source": "Twitter",
+      "favorited": false,
+      "lang": "de",
+      "metadata": {
+        "iso_language_code": "de",
+        "result_type": "recent"
+      },
+      "entities": {
+        "hashtags": [],
+        "urls": [],
+        "user_mentions": []
+      },
+      "user": {
+        "id": 332211,
+        "screen_name": "rclarkson",
+        "profile_image_url": "http://a3.twimg.com/profile_images/1205746571/me2_300.jpg"
+      },
+      "created_at": "Tue Jul 20 19:38:21 +0000 2010"
+    }
+  ],
+  "search_metadata": {
+    "since_id": 10,
+    "max_id": 999,
+    "refresh_url": "?since_id=10&q=%23spring",
+    "results_per_page": 15,
+    "completed_in": 0.035,
+    "next_results": "?max_id=999&q=%23spring",
+    "query": "%23spring",
+    "max_id_str": "999",
+    "since_id_str": "10"
+  }
 }
