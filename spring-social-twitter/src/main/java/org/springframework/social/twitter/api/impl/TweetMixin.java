@@ -77,6 +77,9 @@ abstract class TweetMixin extends TwitterObjectMixin {
     @JsonProperty("entities")
     private Entities entities;
 
+    @JsonProperty("extended_entities")
+    private Entities extendedEntities;
+
     @JsonProperty("favorited")
     private boolean favorited;
 

@@ -17,6 +17,8 @@ package org.springframework.social.twitter.api;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * <p>A representation of embedded media entity.</p>
@@ -42,7 +44,9 @@ public class MediaEntity extends TwitterObject implements Serializable {
 
 	private int[] indices;
 
-	public MediaEntity(long id, String mediaHttp, String mediaHttps, String url, String display, String expanded, String type, int[] indices) {
+    private Map<ImageSize, SizeObject> sizes;
+
+	public MediaEntity(long id, String mediaHttp, String mediaHttps, String url, String display, String expanded, String type, int[] indices, Map<ImageSize, SizeObject> sizes) {
 		this.id = id;
 		this.mediaHttp = mediaHttp;
 		this.mediaHttps = mediaHttps;
@@ -51,10 +55,10 @@ public class MediaEntity extends TwitterObject implements Serializable {
 		this.expanded = expanded;
 		this.type = type;
 		this.indices = indices;
-	}
+        this.sizes = sizes;
+    }
 
-
-	public long getId() {
+    public long getId() {
 		return this.id;
 	}
 
@@ -97,7 +101,14 @@ public class MediaEntity extends TwitterObject implements Serializable {
 	}
 
 
-	@Override
+    public Map<ImageSize, SizeObject> getSizes() {
+        if (this.sizes == null || this.sizes.size() <= 0) {
+            return Collections.emptyMap();
+        }
+        return sizes;
+    }
+
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -132,7 +143,9 @@ public class MediaEntity extends TwitterObject implements Serializable {
 		if (url != null ? !url.equals(that.url) : that.url != null) {
 			return false;
 		}
-
+        if (sizes != null ? !sizes.equals(that.sizes) : that.sizes != null) {
+            return false;
+        }
 		return true;
 	}
 
@@ -147,6 +160,7 @@ public class MediaEntity extends TwitterObject implements Serializable {
 		result = 31 * result + (expanded != null ? expanded.hashCode() : 0);
 		result = 31 * result + (type != null ? type.hashCode() : 0);
 		result = 31 * result + (indices != null ? Arrays.hashCode(indices) : 0);
+        result = 31 * result + (sizes != null ? sizes.hashCode() : 0);
 		return result;
 	}
 }

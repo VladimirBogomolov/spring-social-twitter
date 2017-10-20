@@ -15,8 +15,6 @@
  */
 package org.springframework.social.twitter.api;
 
-import org.springframework.social.connect.UserProfile;
-
 import java.util.Date;
 
 /**
@@ -37,8 +35,8 @@ public class UserList extends TwitterObject {
 	private TwitterProfile user;
 	private Date createdAt;
 
-	public UserList(long id, String name, String fullName, String uriPath, String description, String slug, 
-			boolean isPublic, boolean isFollowing, int memberCount, int subscriberCount) {
+	public UserList(long id, String name, String fullName, String uriPath, String description, String slug,
+					boolean isPublic, boolean isFollowing, int memberCount, int subscriberCount) {
 		this.id = id;
 		this.name = name;
 		this.fullName = fullName;

@@ -19,42 +19,48 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.social.twitter.api.ImageSize;
+import org.springframework.social.twitter.api.SizeObject;
+
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class MediaEntityMixin extends TwitterObjectMixin {
 
-	@JsonCreator
-	public MediaEntityMixin(
-			@JsonProperty("id") long id, 
-			@JsonProperty("media_url")String mediaHttp, 
-			@JsonProperty("media_url_https")String mediaHttps, 
-			@JsonProperty("url")String url, 
-			@JsonProperty("display_url")String display, 
-			@JsonProperty("expanded_url")String expanded, 
-			@JsonProperty("type")String type, 
-			@JsonProperty("indices")int[] indices) {}
+    @JsonCreator
+    public MediaEntityMixin(
+            @JsonProperty("id") long id,
+            @JsonProperty("media_url") String mediaHttp,
+            @JsonProperty("media_url_https") String mediaHttps,
+            @JsonProperty("url") String url,
+            @JsonProperty("display_url") String display,
+            @JsonProperty("expanded_url") String expanded,
+            @JsonProperty("type") String type,
+            @JsonProperty("indices") int[] indices,
+            @JsonProperty("sizes") Map<ImageSize, SizeObject> sizes) {
+    }
 
-	@JsonProperty("media_url")
-	private String mediaHttp;
+    @JsonProperty("media_url")
+    private String mediaHttp;
 
-	@JsonProperty("media_url_https")
-	private String mediaHttps;
+    @JsonProperty("media_url_https")
+    private String mediaHttps;
 
-	@JsonProperty("display_url")
-	private String display;
+    @JsonProperty("display_url")
+    private String display;
 
-	@JsonProperty("expanded_url")
-	private String expanded;
+    @JsonProperty("expanded_url")
+    private String expanded;
 
-	@JsonIgnore
-	public abstract String getMediaUrl();
+    @JsonIgnore
+    public abstract String getMediaUrl();
 
-	@JsonIgnore
-	public abstract String getMediaSecureUrl();
+    @JsonIgnore
+    public abstract String getMediaSecureUrl();
 
-	@JsonIgnore
-	public abstract String getDisplayUrl();
+    @JsonIgnore
+    public abstract String getDisplayUrl();
 
-	@JsonIgnore
-	public abstract String getExpandedUrl();
+    @JsonIgnore
+    public abstract String getExpandedUrl();
 }

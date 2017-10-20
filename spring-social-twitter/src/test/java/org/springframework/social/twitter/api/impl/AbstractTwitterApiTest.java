@@ -123,7 +123,7 @@ public abstract class AbstractTwitterApiTest {
 	}
 	
 	protected void assertTimelineTweets(List<Tweet> tweets, boolean isSearchResult) {
-		assertEquals(2, tweets.size());
+		assertEquals(3, tweets.size());
 		assertSingleTweet(tweets.get(0), isSearchResult);
 		Tweet tweet2 = tweets.get(1);
 		assertEquals("54321", tweet2.getId());
@@ -140,7 +140,11 @@ public abstract class AbstractTwitterApiTest {
 		}
 		Entities entities = tweet2.getEntities();
 		assertEquals(0, entities.getHashTags().size());
-	}
+		Tweet tweet3 = tweets.get(2);
+		Entities entities2 = tweet3.getExtendedEntities();
+		assertEquals(3, entities2.getMedia().size());
+		assertEquals(4, entities2.getMedia().get(0).getSizes().size());
+    }
 
 	protected void assertPlace(Place place) {
 		assertEquals("6b9811c8d9de10b9", place.getId());

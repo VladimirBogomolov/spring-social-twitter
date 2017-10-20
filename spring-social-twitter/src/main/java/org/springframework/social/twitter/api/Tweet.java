@@ -42,7 +42,8 @@ public class Tweet extends TwitterObject implements Serializable {
 	private boolean favorited;
 	private Integer favoriteCount;
 	private Entities entities;
-	private TwitterProfile user;
+	private Entities extendedEntities;
+    private TwitterProfile user;
 	private Place.Geometry coordinates;
 	private Place place;
 	private String quotedStatusId;
@@ -246,6 +247,14 @@ public class Tweet extends TwitterObject implements Serializable {
 		this.entities = ent;
 	}
 
+	public Entities getExtendedEntities() {
+		return extendedEntities;
+	}
+
+	public void setExtendedEntities(Entities extendedEntities) {
+		this.extendedEntities = extendedEntities;
+	}
+
 	public Place.Geometry getCoordinates() {
 		return coordinates;
 	}
@@ -328,6 +337,9 @@ public class Tweet extends TwitterObject implements Serializable {
 		if (entities != null ? !entities.equals(tweet.entities) : tweet.entities != null) {
 			return false;
 		}
+		if (extendedEntities != null ? !extendedEntities.equals(tweet.extendedEntities) : tweet.extendedEntities != null) {
+			return false;
+		}
 		if (getFromUser() != null ? !getFromUser().equals(tweet.getFromUser()) : tweet.getFromUser() != null) {
 			return false;
 		}
@@ -395,6 +407,7 @@ public class Tweet extends TwitterObject implements Serializable {
 		result = 31 * result + (retweeted ? 1 : 0);
 		result = 31 * result + (retweetedStatus != null ? retweetedStatus.hashCode() : 0);
 		result = 31 * result + (entities != null ? entities.hashCode() : 0);
+		result = 31 * result + (extendedEntities != null ? extendedEntities.hashCode() : 0);
 		result = 31 * result + (user != null ? user.hashCode() : 0);
 		result = 31 * result + (coordinates != null ? coordinates.hashCode() : 0);
 		result = 31 * result + (place != null ? place.hashCode() : 0);

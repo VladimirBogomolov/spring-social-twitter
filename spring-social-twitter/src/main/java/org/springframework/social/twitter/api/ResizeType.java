@@ -22,33 +22,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Enumeration of image sizes supported by Twitter
- *
- * @author Craig Walls
+ * Created by Bogomolov Vladimir on 20.10.17.
  */
-public enum ImageSize {
+public enum ResizeType {
 
-    THUMB,
+    FIT,
 
-    LARGE,
-
-    MEDIUM,
-
-    SMALL,
+    CROP,
 
     UNKNOWN;
 
-    private static Map<String, ImageSize> namesMap = new HashMap<String, ImageSize>(4);
+    private static Map<String, ResizeType> namesMap = new HashMap<String, ResizeType>(2);
 
     static {
-        namesMap.put("thumb", THUMB);
-        namesMap.put("large", LARGE);
-        namesMap.put("medium", MEDIUM);
-        namesMap.put("small", SMALL);
+        namesMap.put("fit", FIT);
+        namesMap.put("crop", CROP);
     }
 
     @JsonCreator
-    public static ImageSize forValue(String value) {
+    public static ResizeType forValue(String value) {
         if (value != null)
             return namesMap.getOrDefault(value.toLowerCase(), UNKNOWN);
         return UNKNOWN;
@@ -56,7 +48,7 @@ public enum ImageSize {
 
     @JsonValue
     public String toValue() {
-        for (Map.Entry<String, ImageSize> entry : namesMap.entrySet()) {
+        for (Map.Entry<String, ResizeType> entry : namesMap.entrySet()) {
             if (entry.getValue() == this)
                 return entry.getKey();
         }
